@@ -41,7 +41,6 @@ model Salon {
   nombre      String  @db.VarChar(100)
   ubicacion   String? @db.VarChar(200)
   capacidad   Int?
-  descripcion String? @db.Text
   horarios    Horario[]
 
   @@map("salon")
