@@ -1,36 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfesorDto, UpdateProfesorDto } from './crud-profesor.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ProfesorService {
-  private profesores: { id: number; nombre: string }[] = [];
+  constructor(private PrismaService: PrismaService) {}
 
-  findAll() {
-    return this.profesores;
+  async create(data: CreateProfesorDto) {
+    return this.PrismaService.profesor.create({
+      data,
+    });
   }
 
-  findOne(id: number) {
-    return this.profesores.find((prof) => prof.id === id) || null;
+  async findAll() {
+    return this.PrismaService.profesor.findMany();
   }
 
-  create(data: CreateProfesorDto) {
-    const nuevo = { id: Date.now(), ...data };
-    this.profesores.push(nuevo);
-    return nuevo;
+  async findOne(id: number) {
+    const profesor = await this.PrismaService.profesor.findUnique({
+      where: { id },
+    });
+    if (!profesor) {
+      throw new NotFoundException(`Profesor con id ${id} no encontrado`);
+    }
+    return profesor;
   }
 
-  update(id: number, data: UpdateProfesorDto) {
-    const index = this.profesores.findIndex((prof) => prof.id === id);
-    if (index === -1) return null;
-    this.profesores[index] = { ...this.profesores[index], ...data };
-    return this.profesores[index];
+  async update(id: number, data: UpdateProfesorDto) {
+    const profesor = await this.PrismaService.profesor.findUnique({
+      where: { id },
+    });
+    if (!profesor) {
+      throw new NotFoundException(`Profesor con id ${id} no encontrado`);
+    }
+    return this.PrismaService.profesor.update({
+      where: { id },
+      data,
+    });
   }
 
-  remove(id: number) {
-    const index = this.profesores.findIndex((prof) => prof.id === id);
-    if (index === -1) return null;
-    const eliminado = this.profesores[index];
-    this.profesores.splice(index, 1);
-    return eliminado;
+  async remove(id: number) {
+    const profesor = await this.PrismaService.profesor.findUnique({
+      where: { id },
+    });
+    if (!profesor) {
+      throw new NotFoundException(`Profesor con id ${id} no encontrado`);
+    }
+    return this.PrismaService.profesor.delete({
+      where: { id },
+    });
   }
 }

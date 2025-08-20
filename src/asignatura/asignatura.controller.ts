@@ -1,4 +1,3 @@
-
 import {
   Controller,
   Get,
@@ -15,22 +14,19 @@ import { CreateAsignaturaDto, UpdateAsignaturaDto } from './crud-asignatura.dto'
 @Controller('asignaturas')
 export class AsignaturaController {
   constructor(private readonly asignaturaService: AsignaturaService) {}
-/*
+
   @Get()
   findAll() {
     return this.asignaturaService.findAll();
   }
-
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.asignaturaService.findOne(id);
   }
-*/
   @Post()
   create(@Body() data: CreateAsignaturaDto) {
     return this.asignaturaService.create(data);
   }
-/*
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -42,5 +38,5 @@ export class AsignaturaController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.asignaturaService.remove(id);
-  }*/
+  }
 }

@@ -1,42 +1,54 @@
-import { Injectable } from '@nestjs/common';
 
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCursoDto, UpdateCursoDto } from './crud-curso.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CursoService {
-  private cursos: {
-    id: number;
-    nrc: string;
-    asignatura_id: number;
-    profesor_id?: number;
-  }[] = [];
+  constructor(private PrismaService: PrismaService) {}
 
-  findAll() {
-    return this.cursos;
+  async create(data: CreateCursoDto) {
+    return this.PrismaService.curso.create({
+      data,
+    });
   }
 
-  findOne(id: number) {
-    return this.cursos.find((curso) => curso.id === id) || null;
+  async findAll() {
+    return this.PrismaService.curso.findMany();
   }
 
-  create(data: CreateCursoDto) {
-    const nuevo = { id: Date.now(), ...data };
-    this.cursos.push(nuevo);
-    return nuevo;
+  async findOne(id: number) {
+    const curso = await this.PrismaService.curso.findUnique({
+      where: { id },
+    });
+    if (!curso) {
+      throw new NotFoundException(`Curso con id ${id} no encontrado`);
+    }
+    return curso;
   }
 
-  update(id: number, data: UpdateCursoDto) {
-    const index = this.cursos.findIndex((curso) => curso.id === id);
-    if (index === -1) return null;
-    this.cursos[index] = { ...this.cursos[index], ...data };
-    return this.cursos[index];
+  async update(id: number, data: UpdateCursoDto) {
+    const curso = await this.PrismaService.curso.findUnique({
+      where: { id },
+    });
+    if (!curso) {
+      throw new NotFoundException(`Curso con id ${id} no encontrado`);
+    }
+    return this.PrismaService.curso.update({
+      where: { id },
+      data,
+    });
   }
 
-  remove(id: number) {
-    const index = this.cursos.findIndex((curso) => curso.id === id);
-    if (index === -1) return null;
-    const eliminado = this.cursos[index];
-    this.cursos.splice(index, 1);
-    return eliminado;
+  async remove(id: number) {
+    const curso = await this.PrismaService.curso.findUnique({
+      where: { id },
+    });
+    if (!curso) {
+      throw new NotFoundException(`Curso con id ${id} no encontrado`);
+    }
+    return this.PrismaService.curso.delete({
+      where: { id },
+    });
   }
 }

@@ -1,5 +1,5 @@
 export class CreateSalonDto {
-    nombre?: string;
+    nombre: string;
     ubicacion: string;
     capacidad: number;
 }
