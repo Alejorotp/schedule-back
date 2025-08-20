@@ -27,11 +27,12 @@ model Profesor {
 }
 
 model Asignatura {
-  id          Int     @id @default(autoincrement())
-  nombre      String  @db.VarChar(100)
-  descripcion String? @db.Text
-  creditos    Int
-  cursos      Curso[]
+  id           Int     @id @default(autoincrement())
+  nombre       String  @db.VarChar(100)
+  descripcion  String? @db.Text
+  creditos     Int
+  departamento String  @db.VarChar(200)
+  cursos       Curso[]
 
   @@map("asignatura")
 }
