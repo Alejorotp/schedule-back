@@ -10,8 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { ProfesorService } from './profesor.service';
-import { CreateProfesorDto } from './create-profesor.dto';
-import { UpdateProfesorDto } from './update-profesor.dto';
+import { CreateProfesorDto, UpdateProfesorDto } from './crud-profesor.dto';
 
 @Controller('profesores')
 export class ProfesorController {
