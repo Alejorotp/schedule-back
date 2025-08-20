@@ -7,9 +7,10 @@ import { AsignaturaModule } from './asignatura/asignatura.module';
 import { CursoModule } from './curso/curso.module';
 import { HorarioModule } from './horario/horario.module';
 import { SalonModule } from './salon/salon.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [ProfesorModule, AsignaturaModule, CursoModule, HorarioModule, SalonModule],
+  imports: [ProfesorModule, AsignaturaModule, CursoModule, HorarioModule, SalonModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
