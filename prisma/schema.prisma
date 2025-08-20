@@ -9,13 +9,13 @@ datasource db {
 }
 
 enum day_of_week {
-  LUN
-  MAR
-  MIE
-  JUE
-  VIE
-  SAB
-  DOM
+  lun
+  mar
+  mie
+  jue
+  vie
+  sab
+  dom
 }
 
 model Profesor {
@@ -48,7 +48,8 @@ model Salon {
 
 model Curso {
   id            Int        @id @default(autoincrement())
-  nrc           String     @unique @db.VarChar(20)
+  nrc           String     @db.VarChar(20)
+  periodo       String     @db.VarChar(20)
   asignatura_id Int
   profesor_id   Int?
   asignatura    Asignatura @relation(fields: [asignatura_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
