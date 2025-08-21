@@ -1,5 +1,3 @@
-// src/asignatura/asignatura.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { CreateAsignaturaDto } from './crud-asignatura.dto';
 import { PrismaService } from '../prisma/prisma.service';
