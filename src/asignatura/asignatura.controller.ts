@@ -19,10 +19,6 @@ export class AsignaturaController {
   findAll() {
     return this.asignaturaService.findAll();
   }
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.asignaturaService.findOne(id);
-  }
   @Post()
   create(@Body() data: CreateAsignaturaDto) {
     return this.asignaturaService.create(data);
@@ -33,10 +29,5 @@ export class AsignaturaController {
     @Body() data: UpdateAsignaturaDto,
   ) {
     return this.asignaturaService.update(id, data);
-  }
-
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.asignaturaService.remove(id);
   }
 }

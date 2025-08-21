@@ -18,43 +18,25 @@ enum day_of_week {
   dom
 }
 
-model Profesor {
-  id     Int     @id @default(autoincrement())
-  nombre String  @db.VarChar(100)
-  cursos Curso[]
-
-  @@map("profesor")
-}
-
 model Asignatura {
   id           Int     @id @default(autoincrement())
   nombre       String  @db.VarChar(100)
   descripcion  String? @db.Text
   creditos     Int
-  departamento String  @db.VarChar(200)
+  departamento String? @db.VarChar(200)
   cursos       Curso[]
 
   @@map("asignatura")
-}
-
-model Salon {
-  id          Int     @id @default(autoincrement())
-  nombre      String  @db.VarChar(100)
-  ubicacion   String? @db.VarChar(200)
-  capacidad   Int?
-  horarios    Horario[]
-
-  @@map("salon")
 }
 
 model Curso {
   id            Int        @id @default(autoincrement())
   nrc           String     @db.VarChar(20)
   periodo       String     @db.VarChar(20)
+  profesor      String?    @db.VarChar(200)
+  salon         String?    @db.VarChar(100)
   asignatura_id Int
-  profesor_id   Int?
   asignatura    Asignatura @relation(fields: [asignatura_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  profesor      Profesor?  @relation(fields: [profesor_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
   horarios      Horario[]
 
   @@map("curso")
@@ -63,12 +45,10 @@ model Curso {
 model Horario {
   id              Int         @id @default(autoincrement())
   day             day_of_week
-  hora_de_inicio  DateTime?   @db.Time
-  hora_final      DateTime?   @db.Time
+  hora_de_inicio  String    @db.VarChar(20)
+  hora_final      String    @db.VarChar(20)
   curso_id        Int
-  salon_id        Int?
   curso           Curso       @relation(fields: [curso_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  salon           Salon?      @relation(fields: [salon_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@map("horario")
 }
