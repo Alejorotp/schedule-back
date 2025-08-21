@@ -50,4 +50,38 @@ export class CursoService {
       },
     });
   }
+
+  async update(id: number, data: UpdateCursoDto) {
+    const curso = await this.PrismaService.curso.findUnique({
+      where: { id },
+    });
+
+    if (!curso) {
+      throw new NotFoundException(`Curso with ID ${id} not found`);
+    }
+
+    return this.PrismaService.curso.update({
+      where: { id },
+      data: {
+        nrc: data.nrc,
+        periodo: data.periodo,
+        asignatura_id: data.asignatura_id,
+        profesor: data.profesor,
+        salon: data.salon,
+        horarios: {
+          deleteMany: {},
+          createMany: {
+            data: data.horarios?.map(horario => ({
+              day: horario.day as day_of_week,
+              hora_de_inicio: horario.hora_de_inicio,
+              hora_final: horario.hora_final,
+            })) || [],
+          },
+        },
+      },
+      include: {
+        horarios: true,
+      },
+    });
+  }
 }
