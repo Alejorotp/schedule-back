@@ -19,15 +19,9 @@ export class AsignaturaController {
   findAll() {
     return this.asignaturaService.findAll();
   }
+  
   @Post()
   create(@Body() data: CreateAsignaturaDto) {
     return this.asignaturaService.create(data);
-  }
-  @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: UpdateAsignaturaDto,
-  ) {
-    return this.asignaturaService.update(id, data);
   }
 }

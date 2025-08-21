@@ -18,8 +18,8 @@ export class UpdateCursoDto {
   profesor?: string;
   salon?: string;
   horarios?: {
-    day?: string;
-    hora_de_inicio?: Date;
-    hora_final?: Date;
+    day: string;
+    hora_de_inicio: string;
+    hora_final: string;
   }[];
 }

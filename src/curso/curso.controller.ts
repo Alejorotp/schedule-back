@@ -3,6 +3,9 @@ import {
   Get,
   Post,
   Body,
+  Patch,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CursoService } from './curso.service';
 import { CreateCursoDto, UpdateCursoDto } from './crud-curso.dto';
@@ -19,5 +22,13 @@ export class CursoController {
   @Post()
   create(@Body() data: CreateCursoDto) {
     return this.cursoService.create(data);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: UpdateCursoDto,
+  ) {
+    return this.cursoService.update(id, data);
   }
 }
